@@ -1,0 +1,16 @@
+:root {
+    color-scheme: dark light;
+}
+
+nav {
+    background-color: rgb(196, 196, 255);
+}
+
+@media (prefers-color-scheme: dark) {
+    nav {
+        /* modo oscuro */
+        background-color: rgb(32, 32, 122);
+    }
+}
+
+

@@ -1,0 +1,19 @@
+{
+  "name": "jaira",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently -k -n \"VUE,JAVA,PY\" -c \"green,blue,yellow\" \"npm run dev:front\" \"npm run dev:back\"",
+    "dev:front": "cd frontend && npm run dev",
+    "dev:back": "cd backend-core && ./mvnw spring-boot:run",
+    "dev:ai": "cd backend-ai && uvicorn main:app --reload --port 8000",
+    "build": "npm run clean && npm run build:front && npm run move:dist && npm run build:back",
+    "clean": "shx rm -rf backend-core/src/main/resources/static/*",
+    "build:front": "cd frontend && npm install && npm run build && cd .. && npm run move:dist",
+    "move:dist": "shx cp -r frontend/dist/* backend-core/src/main/resources/static/",
+    "build:back": "cd backend-core && ./mvnw clean package -DskipTests"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "shx": "^0.3.4"
+  }
+}
