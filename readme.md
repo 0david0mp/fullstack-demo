@@ -3,7 +3,18 @@ demo sencilla:
 - database: backend
 - user: backend
 
-para poblarla y tal: `psql -U backend < init.sql`
+```sql
+create user backend;
+create database backend;
+alter database backend user backend;
+```
+
+para poblarla y tal: `psql -U backend < ./database/init.sql`.
+
+esta mal:
+- 1 servicio global para todas las entidades
 
 solo lee de la api para cargar las columnas y las tarjetas, no reordena ni hace
-nada. tampoco se pueden crear tarjetas, ni columnas, etc.
+nada (de forma persistente). tampoco se pueden crear tarjetas, ni columnas, etc.
+para ver más eventos de arrastrar y eso con las consola del navegador.
+
