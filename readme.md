@@ -11,6 +11,8 @@ alter database backend user backend;
 
 para poblarla y tal: `psql -U backend < ./database/init.sql`.
 
+para ejecutarlo: `./backend-core/mvnw spring-boot:run` y `npm run preview`.
+
 esta mal:
 - 1 servicio global para todas las entidades
 
