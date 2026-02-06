@@ -9,7 +9,7 @@ const columns = ref(cols);
 console.log(columns.value)
 
 const handleMoveAPI = ({ taskId, newColumnId, newIndex }) => {
-   console.log("Llamando a Spring Boot...", taskId, newColumnId);
+   console.log(`Llamando a /api/move task:${taskId} newColumn:${newColumnId}, newIdx:${newIndex}`);
 }
 
 async function getColumns() {
@@ -31,15 +31,17 @@ async function getColumns() {
 </script>
 
 <template>
+    <div class="board">
       <WorkColumn
         v-for="col in columns"
         :key="col.id"
         :id="col.id"
         :title="col.name"
         :workitems="col.workitems"
-        @update:tasks="newTasks => col.workitems = newTasks"
+        @update:items="newItems => col.workitems = newItems"
         @item-moved="handleMoveAPI"
       />
+    </div>
 </template>
 
 <style>

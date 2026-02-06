@@ -3,38 +3,27 @@ import { computed } from 'vue';
 import draggable from 'vuedraggable';
 import WorkItemCard from './WorkitemCard.vue';
 
-// Props: Recibimos el Título, el ID de columna y la lista de Tareas
+// Props: Recibimos el Título, el ID de columna y la lista de Tareas (desde ../views/WaveboardView.vue)
+// SOLO LECTURA, para modificarlos: emit() -> onDragChange
 const props = defineProps({
   id: { type: Number, required: true },
   title: { type: String, required: true },
   workitems: { type: Array, required: true }
 });
 
-// Emits: Para avisar al padre que la lista ha cambiado
-const emit = defineEmits(['update:workitems', 'item-moved']);
+const emit = defineEmits(['update:items', 'item-moved']);
 
-// Computed Writable: Puente entre v-model y los props
+// para no utilizar directamente los props
 const taskList = computed({
   get: () => props.workitems,
   set: (value) => {
-    // Cuando draggable reordena, emite el array nuevo al padre
-    emit('update:workitems', value);
+    emit('update:items', value);
+    // se lo manda a ../views/WaveboardView.vue:41
   }
 });
 
-/**
- * Maneja el evento cuando soltamos una tarjeta.
- * Aquí es donde llamarás a tu API de Spring Boot.
- */
 const onDragChange = (event) => {
-  // 'added': Se soltó una tarjeta nueva en esta columna
-  // 'moved': Se reordenó dentro de la misma columna
-  // 'removed': Se fue a otra columna
-
   if (event.added) {
-    console.log(`Tarjeta ID ${event.added.element.id} movida a columna ${props.title}`);
-
-    // Emitimos un evento personalizado para que el padre llame a la API
     emit('item-moved', {
       taskId: event.added.element.id,
       newColumnId: props.id,
@@ -43,8 +32,7 @@ const onDragChange = (event) => {
   }
 
   if (event.moved) {
-    console.log(`Reordenado en ${props.title}. Nuevo índice: ${event.moved.newIndex}`);
-    // Lógica para reordenar (cambiar sort_order en backend)
+    console.log(`Llamando a /api/order col:${props.id} newIndex: ${event.moved.newIndex}`);
   }
 };
 </script>
